@@ -171,7 +171,7 @@ export const Login: React.FC = () => {
             disabled={loading}
             className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 py-2.5 text-xs font-bold hover:bg-slate-100 dark:border-slate-850 dark:bg-transparent dark:hover:bg-slate-800 transition-colors"
           >
-            <svg className="h-4.5 w-4.5" viewBox="0 0 24 24">
+            <svg className="h-5 w-5 shrink-0" viewBox="0 0 24 24" width="20" height="20">
               <path
                 fill="#4285F4"
                 d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v3.92h6.69c-.29 1.5-.1.38-1.14 2.37v2.53h6.61c3.87-3.56 6.08-8.8 6.08-14.75z"
