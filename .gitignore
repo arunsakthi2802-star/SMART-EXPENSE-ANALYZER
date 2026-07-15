@@ -1,0 +1,30 @@
+# Node dependencies and build files
+node_modules/
+dist/
+build/
+.npm/
+
+# Python cache and environments
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.tox/
+.venv
+venv/
+ENV/
+env/
+
+# Private environment variables
+.env
+
+# Local IDE and metadata configurations
+.agents/
+.gemini/
+.system_generated/
+.vscode/
+.idea/
+.DS_Store
+thumbs.db
+static/uploads/*
+!static/uploads/.gitkeep
