@@ -18,7 +18,6 @@ import {
   Brain,
   Activity,
   PlusCircle,
-  Plus,
   ArrowRight
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';

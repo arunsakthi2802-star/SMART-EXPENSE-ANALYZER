@@ -9,8 +9,6 @@ import {
   Sun,
   Moon,
   Plus,
-  X,
-  Check,
   AlertCircle
 } from 'lucide-react';
 
