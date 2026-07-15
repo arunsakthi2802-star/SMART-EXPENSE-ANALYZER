@@ -49,15 +49,6 @@ export const Login: React.FC = () => {
     }
   };
 
-  const handleGoogleLogin = () => {
-    // Simulated Google Login for UI flow
-    setLoading(true);
-    setTimeout(() => {
-      // Create mockup credentials
-      localStorage.setItem('token', 'mockup-google-jwt-token-val');
-      window.location.reload();
-    }, 1000);
-  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 dark:bg-brand-950/20 font-sans transition-colors duration-300">
@@ -156,41 +147,7 @@ export const Login: React.FC = () => {
             {loading ? 'Logging in...' : 'Sign In'}
           </button>
 
-          {/* Divider */}
-          <div className="relative flex items-center justify-center my-4">
-            <div className="w-full border-t border-slate-200 dark:border-slate-800" />
-            <span className="absolute bg-white px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest dark:bg-slate-900">
-              Or Connect With
-            </span>
-          </div>
 
-          {/* Google Login button */}
-          <button
-            type="button"
-            onClick={handleGoogleLogin}
-            disabled={loading}
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 py-2.5 text-xs font-bold hover:bg-slate-100 dark:border-slate-850 dark:bg-transparent dark:hover:bg-slate-800 transition-colors"
-          >
-            <svg className="h-5 w-5 shrink-0" viewBox="0 0 24 24" width="20" height="20">
-              <path
-                fill="#4285F4"
-                d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v3.92h6.69c-.29 1.5-.1.38-1.14 2.37v2.53h6.61c3.87-3.56 6.08-8.8 6.08-14.75z"
-              />
-              <path
-                fill="#34A853"
-                d="M12 24c3.24 0 5.97-1.08 7.96-2.91l-6.61-2.53c-1.83 1.25-4.18 2-6.61 2-5.07 0-9.35-3.44-10.89-8.07H.21v2.61C2.19 19.84 6.74 24 12 24z"
-              />
-              <path
-                fill="#FBBC05"
-                d="M1.11 12.49A14.24 14.24 0 0 1 1.11 7.5V4.89H.21a11.988 11.988 0 0 0 0 9.21l1.1-.92c-.1-.38-.2-.79-.2-1.2z"
-              />
-              <path
-                fill="#EA4335"
-                d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.96 1.19 15.24 0 12 0 6.74 0 2.19 4.16.21 8.89l1.1 2.61c1.54-4.63 5.82-8.07 10.89-8.07z"
-              />
-            </svg>
-            <span>Continue with Google</span>
-          </button>
         </form>
 
         <p className="mt-6 text-center text-xs text-slate-500">
