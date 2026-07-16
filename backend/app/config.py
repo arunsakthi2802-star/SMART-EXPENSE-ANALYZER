@@ -1,8 +1,11 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from dotenv import load_dotenv
+from pathlib import Path
 import os
 
-load_dotenv()
+# Always resolve .env relative to this file (backend/app/config.py → backend/.env)
+_env_path = Path(__file__).resolve().parents[1] / ".env"
+load_dotenv(dotenv_path=_env_path, override=True)
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "budgetIQ"
