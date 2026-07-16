@@ -10,7 +10,8 @@ import {
   Brain,
   Settings,
   LogOut,
-  Sparkles
+  Sparkles,
+  Users
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -35,6 +36,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
     { to: '/ai-insights', name: 'AI Insights', icon: Brain },
     { to: '/reports', name: 'Reports', icon: FileDown },
     { to: '/settings', name: 'Settings', icon: Settings },
+    { to: '/developers', name: 'Developers', icon: Users },
   ];
 
   return (

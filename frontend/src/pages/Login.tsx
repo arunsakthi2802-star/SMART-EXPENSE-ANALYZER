@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { Mail, Lock, Eye, EyeOff, Sparkles } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, Sparkles, Users } from 'lucide-react';
 
 export const Login: React.FC = () => {
   const { login } = useAuth();
@@ -156,6 +156,32 @@ export const Login: React.FC = () => {
             Register now
           </Link>
         </p>
+
+        {/* Developer Team Button */}
+        <div className="mt-5 pt-5 border-t border-slate-200/60 dark:border-slate-700/40">
+          <Link
+            to="/developers"
+            className="group flex w-full items-center justify-center gap-2.5 rounded-xl
+              border border-violet-400/40 dark:border-violet-500/30
+              bg-gradient-to-r from-violet-50 to-fuchsia-50
+              dark:from-violet-950/40 dark:to-fuchsia-950/30
+              px-4 py-2.5 text-xs font-bold
+              text-violet-600 dark:text-violet-400
+              hover:from-violet-100 hover:to-fuchsia-100
+              dark:hover:from-violet-900/50 dark:hover:to-fuchsia-900/40
+              hover:border-violet-500/60
+              hover:shadow-md hover:shadow-violet-500/15
+              transition-all duration-200"
+          >
+            <Users className="h-3.5 w-3.5 transition-transform duration-300 group-hover:scale-110" />
+            Meet Our Developer Team
+            <span className="ml-auto flex gap-0.5 opacity-50 group-hover:opacity-100 transition-opacity">
+              <span className="h-1.5 w-1.5 rounded-full bg-violet-400" />
+              <span className="h-1.5 w-1.5 rounded-full bg-fuchsia-400" />
+              <span className="h-1.5 w-1.5 rounded-full bg-pink-400" />
+            </span>
+          </Link>
+        </div>
       </div>
     </div>
   );

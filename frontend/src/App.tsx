@@ -14,6 +14,7 @@ import { Analytics } from './pages/Analytics';
 import { AIInsights } from './pages/AIInsights';
 import { Reports } from './pages/Reports';
 import { Settings } from './pages/Settings';
+import { Developers } from './pages/Developers';
 import { TransactionModal } from './components/TransactionModal';
 import { BudgetModal } from './components/BudgetModal';
 import { Transaction } from './types';
@@ -120,6 +121,7 @@ const AppContent: React.FC = () => {
                   <Route path="/ai-insights" element={<PrivateRoute><AIInsights /></PrivateRoute>} />
                   <Route path="/reports" element={<PrivateRoute><Reports /></PrivateRoute>} />
                   <Route path="/settings" element={<PrivateRoute><Settings /></PrivateRoute>} />
+                  <Route path="/developers" element={<PrivateRoute><Developers /></PrivateRoute>} />
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
               </main>
@@ -129,6 +131,7 @@ const AppContent: React.FC = () => {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/developers" element={<Developers />} />
             <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
         )}
