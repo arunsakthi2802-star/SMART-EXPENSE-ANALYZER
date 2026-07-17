@@ -1,4 +1,5 @@
-from datetime import datetime
+from datetime import datetime, timedelta
+import secrets
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from bson import ObjectId
 from backend.app.database import get_database
@@ -74,8 +75,9 @@ async def register(user_data: UserRegister):
 @router.post("/login", response_model=Token)
 async def login(credentials: UserLogin):
     db = get_database()
-    normalized_email = credentials.email.lower()
-    user = await db.users.find_one({"email": normalized_email, "is_deleted": False})
+    normalized_email = credentials.email.lower().strip()
+    # Use $ne operator so users without the is_deleted field are also found
+    user = await db.users.find_one({"email": normalized_email, "is_deleted": {"$ne": True}})
     
     if not user or not verify_password(credentials.password, user["password_hash"]):
         raise HTTPException(
@@ -181,9 +183,78 @@ async def upload_profile_picture(
 
 @router.post("/verify-email")
 async def verify_email(current_user: dict = Depends(get_current_user)):
+    """Mark the currently authenticated user's email as verified."""
     db = get_database()
+    if current_user.get("is_verified"):
+        return {"message": "Email is already verified"}
     await db.users.update_one(
         {"_id": current_user["_id"]},
         {"$set": {"is_verified": True, "updated_at": datetime.utcnow()}}
     )
+    # Log verification event as notification
+    await db.notifications.insert_one({
+        "user_id": current_user["_id"],
+        "title": "Email Verified",
+        "message": "Your email address has been successfully verified. Your account is now fully active.",
+        "type": "info",
+        "is_read": False,
+        "created_at": datetime.utcnow()
+    })
     return {"message": "Email verified successfully"}
+
+
+@router.post("/request-verify-otp")
+async def request_verify_otp(current_user: dict = Depends(get_current_user)):
+    """Generate a 6-digit OTP and store it in MongoDB (expires in 10 minutes)."""
+    db = get_database()
+    if current_user.get("is_verified"):
+        raise HTTPException(status_code=400, detail="Email is already verified")
+    
+    otp = str(secrets.randbelow(900000) + 100000)  # Always 6 digits
+    expires_at = datetime.utcnow() + timedelta(minutes=10)
+    
+    # Upsert OTP record for this user
+    await db.email_otps.update_one(
+        {"user_id": current_user["_id"]},
+        {"$set": {"otp": otp, "expires_at": expires_at, "used": False}},
+        upsert=True
+    )
+    
+    # In production send via email; for now return it (demo mode)
+    return {"message": "OTP generated", "otp": otp, "expires_in": "10 minutes"}
+
+
+@router.post("/confirm-verify-otp")
+async def confirm_verify_otp(data: dict, current_user: dict = Depends(get_current_user)):
+    """Confirm the OTP and mark email as verified."""
+    db = get_database()
+    otp_input = data.get("otp", "").strip()
+    
+    if not otp_input:
+        raise HTTPException(status_code=400, detail="OTP is required")
+    
+    record = await db.email_otps.find_one({"user_id": current_user["_id"], "used": False})
+    if not record:
+        raise HTTPException(status_code=400, detail="No pending OTP found. Request a new one.")
+    
+    if datetime.utcnow() > record["expires_at"]:
+        raise HTTPException(status_code=400, detail="OTP has expired. Request a new one.")
+    
+    if record["otp"] != otp_input:
+        raise HTTPException(status_code=400, detail="Invalid OTP")
+    
+    # Mark OTP as used and verify user
+    await db.email_otps.update_one({"_id": record["_id"]}, {"$set": {"used": True}})
+    await db.users.update_one(
+        {"_id": current_user["_id"]},
+        {"$set": {"is_verified": True, "updated_at": datetime.utcnow()}}
+    )
+    await db.notifications.insert_one({
+        "user_id": current_user["_id"],
+        "title": "Email Verified",
+        "message": "Your email address has been successfully verified via OTP.",
+        "type": "info",
+        "is_read": False,
+        "created_at": datetime.utcnow()
+    })
+    return {"message": "Email verified successfully via OTP"}

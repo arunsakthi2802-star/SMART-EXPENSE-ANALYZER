@@ -55,7 +55,7 @@ async def list_budgets(
             {"$group": {"_id": None, "total": {"$sum": "$amount"}}}
         ]
         
-        cursor_agg = db.expenses.aggregate(pipeline)
+        cursor_agg = db.transactions.aggregate(pipeline)
         result = await cursor_agg.to_list(length=1)
         spent = result[0]["total"] if result else 0.0
         
@@ -151,6 +151,22 @@ async def set_budget(
         created_at=b_doc["created_at"]
     )
 
+@router.delete("/{budget_id}")
+async def delete_budget(
+    budget_id: str,
+    current_user: dict = Depends(get_current_user)
+):
+    db = get_database()
+    user_id = current_user["_id"]
+    try:
+        obj_id = ObjectId(budget_id)
+    except:
+        raise HTTPException(status_code=400, detail="Invalid ID format")
+    result = await db.budgets.delete_one({"_id": obj_id, "user_id": user_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Budget not found")
+    return {"message": "Budget deleted successfully"}
+
 # Savings Goal Endpoints
 @router.get("/goals", response_model=List[SavingsGoal])
 async def list_savings_goals(current_user: dict = Depends(get_current_user)):
@@ -158,7 +174,7 @@ async def list_savings_goals(current_user: dict = Depends(get_current_user)):
     user_id = current_user["_id"]
     cursor = db.savings_goals.find({"user_id": user_id})
     goals = await cursor.to_list(length=100)
-    return goals
+    return [SavingsGoal(**{**g, "id": str(g["_id"])}) for g in goals]
 
 @router.post("/goals", response_model=SavingsGoal, status_code=status.HTTP_201_CREATED)
 async def create_savings_goal(
@@ -179,7 +195,7 @@ async def create_savings_goal(
     
     goal_dict = new_goal.to_mongo()
     result = await db.savings_goals.insert_one(goal_dict)
-    goal_dict["_id"] = result.inserted_id
+    goal_dict["id"] = str(result.inserted_id)
     
     # Notify goal created
     await db.notifications.insert_one({
@@ -245,7 +261,7 @@ async def update_savings_goal(
         })
         
     updated = await db.savings_goals.find_one({"_id": obj_id})
-    return updated
+    return {**updated, "id": str(updated["_id"])}
 
 @router.delete("/goals/{goal_id}")
 async def delete_savings_goal(

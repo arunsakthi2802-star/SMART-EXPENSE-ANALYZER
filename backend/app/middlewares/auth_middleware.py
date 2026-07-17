@@ -29,7 +29,8 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
         
     db = get_database()
     try:
-        user = await db.users.find_one({"_id": ObjectId(user_id), "is_deleted": False})
+        # Use $ne so users without the is_deleted field (older records) are also found
+        user = await db.users.find_one({"_id": ObjectId(user_id), "is_deleted": {"$ne": True}})
     except Exception:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

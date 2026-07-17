@@ -153,8 +153,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
     }
 
     if (!categoryId) {
-      setError('Please select a category');
-      return;
+      // category is optional — skip validation
     }
 
     const payload = {
@@ -277,10 +276,9 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
             {/* Category */}
             <div>
               <label className="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5">
-                Category *
+                Category
               </label>
               <select
-                required
                 value={categoryId}
                 onChange={(e) => setCategoryId(e.target.value)}
                 className="w-full rounded-xl border border-slate-200 bg-white text-slate-800 px-3.5 py-2.5 text-sm dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100 focus:border-brand-500 outline-none"

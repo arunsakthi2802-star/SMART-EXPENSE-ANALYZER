@@ -50,9 +50,24 @@ async def init_db_indexes():
         # Notification indexes
         await db.notifications.create_index([("user_id", 1), ("created_at", -1)])
         
+        # Email OTP indexes — TTL auto-delete after 10 minutes
+        await db.email_otps.create_index("user_id", unique=True)
+        await db.email_otps.create_index("expires_at", expireAfterSeconds=0)
+        
         logger.info("Database indexes initialized successfully.")
     except Exception as e:
         logger.error(f"Error initializing indexes: {e}")
+    
+    # Backfill: set is_deleted=False for any user documents that are missing the field
+    try:
+        result = await db_instance.db.users.update_many(
+            {"is_deleted": {"$exists": False}},
+            {"$set": {"is_deleted": False}}
+        )
+        if result.modified_count > 0:
+            logger.info(f"Backfilled is_deleted=False on {result.modified_count} user document(s).")
+    except Exception as e:
+        logger.error(f"Error backfilling is_deleted field: {e}")
 
 def get_database():
     return db_instance.db

@@ -30,8 +30,20 @@ export const Register: React.FC = () => {
       return;
     }
 
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters long');
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters long');
+      return;
+    }
+    if (!/[A-Z]/.test(password)) {
+      setError('Password must contain at least one uppercase letter');
+      return;
+    }
+    if (!/[a-z]/.test(password)) {
+      setError('Password must contain at least one lowercase letter');
+      return;
+    }
+    if (!/\d/.test(password)) {
+      setError('Password must contain at least one number');
       return;
     }
 
@@ -161,13 +173,28 @@ export const Register: React.FC = () => {
               <input
                 type="password"
                 required
-                placeholder="••••••••"
+                placeholder="Min 8 chars, 1 uppercase, 1 number"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full rounded-xl border border-slate-200 bg-transparent py-2.5 pl-10 pr-4 text-sm dark:border-slate-800 focus:border-brand-500 outline-none"
               />
               <Lock className="absolute left-3.5 top-3.5 h-4 w-4 text-slate-400" />
             </div>
+            {/* Password strength hints */}
+            {password.length > 0 && (
+              <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1">
+                {[
+                  { label: '8+ chars', ok: password.length >= 8 },
+                  { label: 'Uppercase', ok: /[A-Z]/.test(password) },
+                  { label: 'Lowercase', ok: /[a-z]/.test(password) },
+                  { label: 'Number', ok: /\d/.test(password) },
+                ].map(({ label, ok }) => (
+                  <span key={label} className={`text-[10px] font-semibold ${ ok ? 'text-emerald-500' : 'text-slate-400 dark:text-slate-600' }`}>
+                    {ok ? '✓' : '○'} {label}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Confirm Password */}

@@ -252,9 +252,36 @@ export const Settings: React.FC = () => {
                 onChange={(e) => setLanguage(e.target.value)}
                 className="w-full rounded-xl border border-slate-200 bg-white text-slate-800 px-3.5 py-2.5 text-xs dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100 focus:border-brand-500 outline-none"
               >
-                <option value="en" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">English</option>
-                <option value="es" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">Español</option>
-                <option value="fr" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">Français</option>
+                <optgroup label="Indian Languages">
+                  <option value="ta" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">தமிழ் (Tamil)</option>
+                  <option value="hi" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">हिन्दी (Hindi)</option>
+                  <option value="te" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">తెలుగు (Telugu)</option>
+                  <option value="kn" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">ಕನ್ನಡ (Kannada)</option>
+                  <option value="ml" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">മലയാളം (Malayalam)</option>
+                  <option value="mr" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">मराठी (Marathi)</option>
+                  <option value="bn" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">বাংলা (Bengali)</option>
+                  <option value="gu" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">ગુજરાતી (Gujarati)</option>
+                  <option value="pa" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">ਪੰਜਾਬੀ (Punjabi)</option>
+                  <option value="or" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">ଓଡ଼ିଆ (Odia)</option>
+                  <option value="as" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">অসমীয়া (Assamese)</option>
+                  <option value="ur" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">اردو (Urdu)</option>
+                  <option value="sa" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">संस्कृत (Sanskrit)</option>
+                  <option value="kok" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">कोंकणी (Konkani)</option>
+                  <option value="mai" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">मैथिली (Maithili)</option>
+                  <option value="doi" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">डोगरी (Dogri)</option>
+                  <option value="mni" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">মৈতৈলোন্ (Manipuri)</option>
+                  <option value="ks" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">کشمیری (Kashmiri)</option>
+                  <option value="sd" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">سنڌي (Sindhi)</option>
+                  <option value="bho" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">भोजपुरी (Bhojpuri)</option>
+                </optgroup>
+                <optgroup label="International">
+                  <option value="en" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">English</option>
+                  <option value="es" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">Español</option>
+                  <option value="fr" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">Français</option>
+                  <option value="de" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">Deutsch</option>
+                  <option value="zh" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">中文 (Chinese)</option>
+                  <option value="ar" className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">العربية (Arabic)</option>
+                </optgroup>
               </select>
             </div>
           </div>
