@@ -28,6 +28,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         name: 'Test User',
         email: 'test@budgetiq.com',
         role: 'user',
+        is_verified: true,
         created_at: new Date().toISOString()
       });
       return;
@@ -97,6 +98,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       name: 'Test User',
       email: 'test@budgetiq.com',
       role: 'user',
+      is_verified: true,
       created_at: new Date().toISOString()
     });
     setLoading(false);
