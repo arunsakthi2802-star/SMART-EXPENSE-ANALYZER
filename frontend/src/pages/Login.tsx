@@ -147,6 +147,30 @@ export const Login: React.FC = () => {
             {loading ? 'Logging in...' : 'Sign In'}
           </button>
 
+          <button
+            type="button"
+            disabled={loading}
+            onClick={async () => {
+              setEmail('test@budgetiq.com');
+              setPassword('Test@1234');
+              setError(null);
+              setLoading(true);
+              try {
+                await login('test@budgetiq.com', 'Test@1234');
+                navigate('/');
+              } catch (err: any) {
+                const detail = err.response?.data?.detail;
+                if (typeof detail === 'string') setError(detail);
+                else setError('Invalid email or password');
+              } finally {
+                setLoading(false);
+              }
+            }}
+            className="w-full rounded-xl bg-slate-800 py-3 text-xs font-bold text-white shadow-md hover:bg-slate-700 disabled:opacity-50 transition-colors mt-2"
+          >
+            Sign in as Test User
+          </button>
+
 
         </form>
 
