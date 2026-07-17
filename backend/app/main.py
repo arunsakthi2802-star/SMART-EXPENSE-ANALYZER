@@ -21,18 +21,28 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS Policy
+# CORS Policy — allow Netlify frontend + localhost dev
+allowed_origins = [
+    "http://localhost:3000",
+    "http://localhost:5173",
+    "https://budgetiq-cyxr.netlify.app",
+    "https://*.netlify.app",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Adjust in production
+    allow_origins=["*"],  # Allow all origins (tighten in production if needed)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # Serve uploads folder for receipt images local fallback
-os.makedirs("static/uploads", exist_ok=True)
-app.mount("/static", StaticFiles(directory="static"), name="static")
+try:
+    os.makedirs("static/uploads", exist_ok=True)
+    app.mount("/static", StaticFiles(directory="static"), name="static")
+except Exception:
+    pass  # Static files not critical for cloud deployments
 
 @app.on_event("startup")
 async def startup_event():
