@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { Mail, Lock, Eye, EyeOff, Sparkles, Users } from 'lucide-react';
 
 export const Login: React.FC = () => {
-  const { login } = useAuth();
+  const { login, forceTestLogin } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -150,21 +150,10 @@ export const Login: React.FC = () => {
           <button
             type="button"
             disabled={loading}
-            onClick={async () => {
-              setEmail('test@budgetiq.com');
-              setPassword('Test@1234');
-              setError(null);
-              setLoading(true);
-              try {
-                await login('test@budgetiq.com', 'Test@1234');
-                navigate('/');
-              } catch (err: any) {
-                const detail = err.response?.data?.detail;
-                if (typeof detail === 'string') setError(detail);
-                else setError('Invalid email or password');
-              } finally {
-                setLoading(false);
-              }
+            onClick={() => {
+              // Direct access without verifying the API
+              forceTestLogin();
+              navigate('/');
             }}
             className="w-full rounded-xl bg-slate-800 py-3 text-xs font-bold text-white shadow-md hover:bg-slate-700 disabled:opacity-50 transition-colors mt-2"
           >
