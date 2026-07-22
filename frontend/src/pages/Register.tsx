@@ -59,6 +59,8 @@ export const Register: React.FC = () => {
       } else if (Array.isArray(detail)) {
         const messages = detail.map((d: any) => d.msg).join(', ');
         setError(messages);
+      } else if (err.message === 'Network Error') {
+        setError('Unable to connect to the server. Please check if the backend is running.');
       } else {
         setError('Failed to create account. Email might be in use.');
       }

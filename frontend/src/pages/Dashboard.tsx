@@ -104,7 +104,7 @@ export const Dashboard: React.FC<{ refreshTrigger?: boolean }> = ({ refreshTrigg
   };
 
   return (
-    <div className="space-y-6 font-sans">
+    <div className="space-y-6 font-sans animate-fade-in-up">
       
       {/* Welcome Banner */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-brand-600 via-indigo-600 to-brand-400 p-6 text-white shadow-xl">

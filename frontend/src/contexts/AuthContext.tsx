@@ -22,17 +22,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState<boolean>(true);
 
   const refreshUser = async () => {
-    if (token === 'test-token-12345' || localStorage.getItem('token') === 'test-token-12345') {
-      setUser({
-        id: 'test-user-id',
-        name: 'Test User',
-        email: 'test@budgetiq.com',
-        role: 'user',
-        is_verified: true,
-        created_at: new Date().toISOString()
-      });
-      return;
-    }
 
     try {
       const response = await api.get('/auth/me');
@@ -89,19 +78,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(response.data);
   };
 
-  const forceTestLogin = () => {
-    const fakeToken = "test-token-12345";
-    localStorage.setItem('token', fakeToken);
-    setToken(fakeToken);
-    setUser({
-      id: 'test-user-id',
-      name: 'Test User',
-      email: 'test@budgetiq.com',
-      role: 'user',
-      is_verified: true,
-      created_at: new Date().toISOString()
-    });
-    setLoading(false);
+  const forceTestLogin = async () => {
+    try {
+      await login('test@budgetiq.com', 'Test@1234');
+    } catch (err) {
+      console.error("Test login failed", err);
+    }
   };
 
   return (

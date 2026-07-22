@@ -48,6 +48,13 @@ except Exception:
 async def startup_event():
     await connect_to_mongo()
     await seed_default_categories()
+    
+    # Automatically update/seed test user credentials in DB on startup
+    try:
+        from backend.create_test_user import create_user
+        await create_user()
+    except Exception as e:
+        logger.error(f"Failed to seed test user on startup: {e}")
 
 @app.on_event("shutdown")
 async def shutdown_event():

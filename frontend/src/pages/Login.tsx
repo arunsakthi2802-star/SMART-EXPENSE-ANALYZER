@@ -41,6 +41,8 @@ export const Login: React.FC = () => {
       } else if (Array.isArray(detail)) {
         const messages = detail.map((d: any) => d.msg).join(', ');
         setError(messages);
+      } else if (err.message === 'Network Error') {
+        setError('Unable to connect to the server. Please check if the backend is running.');
       } else {
         setError('Invalid email or password');
       }
@@ -150,9 +152,9 @@ export const Login: React.FC = () => {
           <button
             type="button"
             disabled={loading}
-            onClick={() => {
+            onClick={async () => {
               // Direct access without verifying the API
-              forceTestLogin();
+              await forceTestLogin();
               navigate('/');
             }}
             className="w-full rounded-xl bg-slate-800 py-3 text-xs font-bold text-white shadow-md hover:bg-slate-700 disabled:opacity-50 transition-colors mt-2"
